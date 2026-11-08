@@ -5,6 +5,7 @@
      <ImageSlot>      grey placeholder that becomes an image or video
    Styles: src/styles/design-system.css §6 + §7
    ========================================================================== */
+import { asset } from '../lib/asset.js';
 
 /**
  * Pill button.  variant: "solid" (blue fill) | "outline"   size: "sm" | "md"
@@ -48,9 +49,9 @@ export function ImageSlot({ className, label, labelClassName = 'pdl-mono pdl-t-i
   return (
     <div className={className}>
       {video ? (
-        <video src={video} autoPlay muted loop playsInline />
+        <video src={asset(video)} autoPlay muted loop playsInline />
       ) : image ? (
-        <img src={image} alt={alt} loading="lazy" />
+        <img src={asset(image)} alt={alt} loading="lazy" />
       ) : (
         <span className={labelClassName}>{label}</span>
       )}

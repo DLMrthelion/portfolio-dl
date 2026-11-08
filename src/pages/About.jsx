@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Button, ImageSlot } from '../components/GlobalComponents.jsx';
 import { Services } from './Home.jsx';
 import { resumeUrl } from '../data/site.js';
+import { asset } from '../lib/asset.js';
 
 /* ==========================================================================
    ABOUT PAGE  —  address: /about
@@ -74,7 +75,7 @@ function MeetCard({ k, n, blurb, note, items }) {
           {items.map((it, j) => (
             <button type="button" key={j} className={'meet-item' + (j === i ? ' on' : '')} onClick={() => setI(j)} aria-label={it.title}>
               <span className="slot meet-cover">
-                {it.cover ? <img src={it.cover} alt="" loading="lazy" /> : <span className="pdl-mono pdl-t-index">Cover</span>}
+                {it.cover ? <img src={asset(it.cover)} alt="" loading="lazy" /> : <span className="pdl-mono pdl-t-index">Cover</span>}
               </span>
               <span className="meet-cap pdl-mono pdl-t-eyebrow">{it.title}</span>
             </button>
@@ -154,7 +155,7 @@ export default function About() {
           <h1 className="pdl-t-display">Meet your new designer,<br /><span className="pdl-serif" style={{ color: 'var(--blue)', letterSpacing: '-0.68px' }}>David Leon A.</span></h1>
           <p className="pdl-t-lead">Originally from Colombia. (He doesn’t like coffee.) Designer by profession and storyteller by heart. He enjoys meeting new folks, working out, or enjoying a great film. Fluent in Spanish, English, and Portuguese, dabbling in French.</p>
           <div className="about-cta" style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            <Button href={resumeUrl || '#'}>Resume</Button>
+            <Button href={asset(resumeUrl) || '#'} target="_blank" rel="noopener">Resume</Button>
             <a href="/work" className="pdl-t-meta link-meta" style={{ alignSelf: 'center' }}>See Projects</a>
           </div>
         </div>

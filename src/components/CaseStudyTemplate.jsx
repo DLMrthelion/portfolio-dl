@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ImageSlot } from './GlobalComponents.jsx';
 import { nextProject } from '../data/projects.js';
+import { asset } from '../lib/asset.js';
 
 /* ==========================================================================
    CASE STUDY TEMPLATE — building blocks for every case study
@@ -226,7 +227,7 @@ export function Figure({ n, image, video, alt = '', ratio, caption = DEFAULT_CAP
   return (
     <figure className="cs-step-fig">
       {ratio && image ? (
-        <img src={image} alt={alt} style={{ display: 'block', width: '100%', height: 'auto', aspectRatio: ratio, objectFit: 'cover' }} />
+        <img src={asset(image)} alt={alt} style={{ display: 'block', width: '100%', height: 'auto', aspectRatio: ratio, objectFit: 'cover' }} />
       ) : (
         <StepImage size="wide" n={n} image={image} video={video} alt={alt} />
       )}

@@ -54,7 +54,7 @@ Your browser opens at **http://localhost:5173**. Pages live at addresses like `l
 
 ## 2. Where everything lives
 
-17 code files in total: one per page, one per case study, and a handful of shared pieces.
+20 code files in total: one per page, one per case study, and a handful of shared pieces.
 
 ```
 portfolio/
@@ -90,7 +90,11 @@ portfolio/
     │   ├── CaseStudyTemplate.jsx ← every case-study block (layout, steps, images, metrics…)
     │   ├── Navbar.jsx            ← sticky header + full-screen menu + light/dark toggle
     │   ├── Footer.jsx
-    │   └── BackToTop.jsx
+    │   ├── BackToTop.jsx
+    │   ├── HeroGradient.jsx      ← live orange + blue gradient behind the Home page
+    │   └── CustomCursor.jsx      ← the blue ball cursor (desktop only)
+    ├── lib/
+    │   └── asset.js              ← asset('/images/x.jpg') → works on GitHub Pages and Vercel
     ├── App.jsx                   ← which page shows at which address
     └── main.jsx                  ← starts the app (no need to touch)
 ```
@@ -101,14 +105,14 @@ portfolio/
 
 | I want to change… | Open |
 |---|---|
-| Home hero headline, intro, section headings | `src/pages/Home.jsx` |
+| Home hero headline (typewriter phrases `TYPE_A` / `TYPE_B`), intro, section headings | `src/pages/Home.jsx` |
 | Testimonials, "My Work Approach" columns, services list | `src/data/site.js` |
 | "My Services" heading + note (shown on Home **and** About) | `src/pages/Home.jsx` → `Services` |
-| Social links, footer call-to-action, menu items, header greeting | `src/data/site.js` |
+| Social links, footer call-to-action, menu items, resume path | `src/data/site.js` |
 | About bio, "What does he like?", Iconic Lines | `src/pages/About.jsx` |
 | Contact heading, intro, extra chips | `src/pages/Contact.jsx` |
 | Projects page heading | `src/pages/Projects.jsx` |
-| A project's title, description, role, year, team, tools | the top (`meta`) of its file in `src/pages/case-studies/` |
+| A project's title, description, short phone description (`short`), role, year, team, tools | the top (`meta`) of its file in `src/pages/case-studies/` |
 | A case study's sections | the same case-study file |
 | Browser-tab titles | `src/App.jsx` (`TITLES`) and `index.html` |
 
@@ -234,6 +238,8 @@ The rule: a piece used on **one** page lives inside that page's file. A piece us
 | `Navbar` | `components/Navbar.jsx` | Sticky header, full-screen menu, light/dark toggle |
 | `Footer` | `components/Footer.jsx` | Footer (text from `data/site.js`) |
 | `BackToTop` | `components/BackToTop.jsx` | Round ↑ button |
+| `HeroGradient` | `components/HeroGradient.jsx` | WebGL background on Home (CSS fallback in `design-system.css`) |
+| `CustomCursor` | `components/CustomCursor.jsx` | Blue ball cursor, mounted once in `App.jsx` |
 | `Hero`, `FeaturedWork`, `Testimonials` (+ `TestimonialCard`), `Approach`, `Services` (+ `ServiceRow`) | `pages/Home.jsx` | Home sections. `Services` is also imported by About. |
 | `MeetCard`, `IconicLines` | `pages/About.jsx` | About sections |
 
@@ -305,7 +311,7 @@ Page addresses use `#` (`yoursite.com/#/work/famigo`), so the site works on **an
 
 **No GitHub needed:** run `npm run build`, then drag the `dist/` folder onto <https://app.netlify.com/drop>.
 
-**GitHub Pages:** works too, but use it with a custom domain or a `<username>.github.io` repository. Image paths start with `/`, so they break under a `github.io/<repo>/` sub-folder.
+**GitHub Pages:** `npm run deploy` builds and publishes to the `gh-pages` branch. The site lives under `/portfolio-dl/` there; `vite.config.js` switches the base automatically (`/` on Vercel), and every image/video/PDF path goes through `asset()` so it loads on both. When you add an `<img>` or `<video>` outside `ImageSlot`/`Figure`, wrap its path: `src={asset('/images/…')}`.
 
 ---
 
@@ -315,7 +321,7 @@ Carried over from the design. Nothing below was changed, only flagged.
 
 **Must-do before launch**
 - [ ] **Connect the contact form.** It currently pretends to send: it shows "Thanks!", but no message goes anywhere. Easiest option: [Formspree](https://formspree.io) (free). Create a form, then in `src/pages/Contact.jsx` replace the `setTimeout(...)` line under `// TODO` with a `fetch('https://formspree.io/f/<your-id>', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(f) })`.
-- [ ] **Resume PDF.** Add it to `public/files/` and set `resumeUrl` in `src/data/site.js`. This fixes the Resume links on Home, About and Contact.
+- [ ] **Resume PDF.** Save it as `public/files/resume.pdf` (path set in `resumeUrl`, `src/data/site.js`). Menu › 05 Resume, Home, About and Contact all open it in a new tab.
 - [ ] **Project covers** (16:7), 4 projects: `meta.cover` + `meta.coverAlt`.
 - [ ] **Button links still set to `'#'`:**
   - Instructo: Final Prototype, Final Video
@@ -365,3 +371,20 @@ Carried over from the design. Nothing below was changed, only flagged.
 - Each case study is its own file instead of one shared file full of `if project is X` conditions.
 - Page addresses keep the prototype's `#` style (`#/work/famigo`), so no host configuration is needed.
 - Unused design-system pieces (DM Mono fonts, `ProjectRow`, `Tag` components) were left out. The `Tag` styles stay in the CSS (§6) in case you want them later.
+
+### Landing page updates (Nov 2026)
+
+Ported from the Portfolio artifact:
+
+- **Home background:** live grainy WebGL gradient (orange `#E9915A` + your blue `#455F8A`) fixed behind the whole page. It bends away from the cursor and softens once you scroll past the hero (`components/HeroGradient.jsx`).
+- **Cream bands on Home:** Featured Work and Services lose the blue fill so the gradient shows through (`.home .pdl-band`). About still uses the blue Services band.
+- **Hero:** typewriter on the two blue italic phrases, line break after “storyteller.”, ink-coloured scroll hint.
+- **Featured Work:** “From: 2025—2026” removed. Click opens the project; the hover video preview shows on desktop/tablet only (none on phones). Phones show `meta.short` instead of the full description.
+- **Work Approach:** the bottom “Chat with Me” call to action was removed; “I think” dropped from the third column.
+- **Header & menu:** greeting removed, logo on the left, new “05 Resume” item (opens the PDF), menu-icon lines 10% closer, and the icon resets to plain lines after closing.
+- **Cursor:** blue ball (`components/CustomCursor.jsx`).
+- **Footer:** “Have a project in mind? Let’s build it together.”
+- **Testimonials:** Omnicorp → Omnicom.
+- **About › Iconic Lines:** more space below, 30px top padding on tablet/desktop, full-screen box on phones.
+- **Cleanup:** removed 13 unused duplicate files (`components/layout`, `home`, `ui`, `about`, `case-study`), plus the CSS for the removed greeting, date range and Approach call to action.
+

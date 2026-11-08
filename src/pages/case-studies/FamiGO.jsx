@@ -12,6 +12,7 @@ export const meta = {
   number: '03',
   title: 'FamiGO',
   description: 'A central hub for families to find, plan, and record their favourite activities and memories.',
+  short: 'A hub for families to plan activities and keep memories.', // shown instead of `description` on phones (Home rows)
   role: 'Researcher &\nUX/UI Designer', // "\n" = line break
   year: '2025',
   cover: '', // e.g. '/images/famigo/cover.jpg' (16:7)

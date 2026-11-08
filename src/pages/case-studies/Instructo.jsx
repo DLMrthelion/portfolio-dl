@@ -12,6 +12,7 @@ export const meta = {
   number: '01',
   title: 'Instructo',
   description: 'A learning app built for entrepreneurs, designed to help them grow, improve and take their business to the next level.',
+  short: 'A learning app that helps entrepreneurs grow their business.', // shown instead of `description` on phones (Home rows)
   role: 'Lead Designer &\nLead UX Researcher', // "\n" = line break on Home/Projects rows
   year: '2025',
   cover: '', // e.g. '/images/instructo/cover.jpg' (16:7) — Projects card + top of this page

@@ -1,7 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Button, SectionHeader } from '../components/GlobalComponents.jsx';
+import HeroGradient from '../components/HeroGradient.jsx';
 import { approach, resumeUrl, services, testimonials } from '../data/site.js';
 import { projects, projectLink } from '../data/projects.js';
+import { asset } from '../lib/asset.js';
 
 /* ==========================================================================
    HOME PAGE  —  address: /
@@ -10,28 +12,55 @@ import { projects, projectLink } from '../data/projects.js';
    • Project rows: src/data/projects.js + each case study's `meta`
    • Testimonials, approach columns and services list: src/data/site.js
    • SERVICES is also shown on About (it's exported at the bottom).
+   • Background: <HeroGradient /> (live WebGL gradient behind the whole page).
+     On this page the blue bands turn cream (.home .pdl-band in design-system.css).
    ========================================================================== */
 
 /* ---------------------------------- HERO ---------------------------------- */
 
+// ✏️ EDIT: the two blue italic phrases in the headline. They type out one after the other.
+const TYPE_A = 'products and stories';
+const TYPE_B = 'make a\u00a0difference.'; // \u00a0 keeps "a difference." on one line
+const TYPE_PAUSE = 10;   // ticks to wait between the two phrases
+const TYPE_SPEED = 65;   // ms per letter
+
+/** Typewriter: untyped letters stay in place (invisible) so the headline never reflows. */
+function useTypewriter() {
+  const offB = TYPE_A.length + TYPE_PAUSE;
+  const total = offB + TYPE_B.length;
+  const still = useMemo(() => window.matchMedia('(prefers-reduced-motion:reduce)').matches, []);
+  const [n, setN] = useState(still ? total : 0);
+  useEffect(() => {
+    if (still) return undefined;
+    let id = 0;
+    const start = setTimeout(() => {
+      id = setInterval(() => setN((v) => { if (v + 1 >= total) clearInterval(id); return Math.min(total, v + 1); }), TYPE_SPEED);
+    }, 500);
+    return () => { clearTimeout(start); clearInterval(id); };
+  }, [still, total]);
+  const type = (text, offset, last) => {
+    const typed = Math.max(0, Math.min(text.length, n - offset));
+    const caret = !still && (last ? n >= offB : n < offB);
+    return <>{text.slice(0, typed)}{caret && <span className="tw-caret" aria-hidden="true" />}<span className="tw-rest" aria-hidden="true">{text.slice(typed)}</span></>;
+  };
+  return { a: type(TYPE_A, 0), b: type(TYPE_B, offB, true) };
+}
+
 function Hero() {
+  const tw = useTypewriter();
   return (
     <section className="pdl-wrap hero">
       <div className="hero-copy">
-        {/* ✏️ EDIT: headline. Words inside <span className="pdl-serif" …> show in the blue italic serif. */}
-        <h1 className="pdl-t-display">
-          I create <span className="pdl-serif" style={{ color: 'var(--blue)', letterSpacing: '-0.68px' }}>products and stories</span>{' '}
-          <span>that connect people and <span className="pdl-serif" style={{ color: 'var(--blue)', letterSpacing: '-0.68px' }}>make a{' '}difference.</span></span>
+        {/* ✏️ EDIT: headline. The blue italic phrases are TYPE_A / TYPE_B above; keep aria-label in sync. */}
+        <h1 className="pdl-t-display" aria-label={`I create ${TYPE_A} that connect people and ${TYPE_B.replace('\u00a0', ' ')}`}>
+          I create <span className="pdl-serif" style={{ color: 'var(--blue)', letterSpacing: '-0.68px' }}>{tw.a}</span>{' '}
+          <span>that connect people and <span className="pdl-serif" style={{ color: 'var(--blue)', letterSpacing: '-0.68px' }}>{tw.b}</span></span>
         </h1>
         {/* ✏️ EDIT: intro line */}
-        <p className="pdl-t-lead">Product designer &amp; storyteller. A curious mind exploring the intersection of people, technology, and creativity</p>
+        <p className="pdl-t-lead">Product designer &amp; storyteller.<br />A curious mind exploring the intersection of people, technology, and creativity</p>
         <div className="hero-cta" style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Button href="/contact">Chat with Me</Button>
-          {resumeUrl ? (
-            <a href={resumeUrl} target="_blank" rel="noopener" className="pdl-t-meta link-meta">Resume</a>
-          ) : (
-            <a href="#resume" className="pdl-t-meta link-meta" title="Resume PDF not added yet" onClick={(e) => e.preventDefault()}>Resume</a>
-          )}
+          <a href={asset(resumeUrl) || '#resume'} target="_blank" rel="noopener" className="pdl-t-meta link-meta">Resume</a>
         </div>
       </div>
       <p className="pdl-t-meta hero-scroll">Scroll down to see more<span className="hero-scroll-ar" aria-hidden="true">↓</span></p>
@@ -41,10 +70,16 @@ function Hero() {
 
 /* ------------------------------ FEATURED WORK ------------------------------ */
 
-/** One project row. Hovering opens a preview with the project's video + preview text (from its meta). */
+const HOVER_MQ = '(hover:hover) and (min-width:641px)';
+
+/**
+ * One project row. Click/tap opens the project.
+ * Desktop & tablet (hover-capable, wider than a phone): hovering opens a preview with the
+ * project's video + preview text (from its meta). Phones get no preview.
+ */
 function HoverProjectRow({ p, last }) {
   const vid = useRef(null);
-  const play = () => { const v = vid.current; if (v) { v.currentTime = 0; v.play().catch(() => {}); } };
+  const play = () => { const v = vid.current; if (v && window.matchMedia(HOVER_MQ).matches) { v.currentTime = 0; v.play().catch(() => {}); } };
   const stop = () => { const v = vid.current; if (v) v.pause(); };
   return (
     <li className={'hrow' + (last ? ' hrow-last' : '')} onMouseEnter={play} onMouseLeave={stop} onFocus={play} onBlur={stop}>
@@ -52,7 +87,9 @@ function HoverProjectRow({ p, last }) {
         <span className="pdl-prow-num pdl-mono pdl-t-index">{p.number}</span>
         <span className="pdl-prow-main">
           <span className="pdl-prow-title pdl-t-row">{p.title}</span>
-          <span className="pdl-prow-desc pdl-t-body">{p.description}</span>
+          <span className="pdl-prow-desc pdl-t-body">
+            {p.short ? <><span className="d-long">{p.description}</span><span className="d-short">{p.short}</span></> : p.description}
+          </span>
         </span>
         <span className="pdl-prow-side">
           <span className="pdl-prow-role pdl-mono pdl-t-meta">{p.role}</span>
@@ -62,7 +99,7 @@ function HoverProjectRow({ p, last }) {
       <div className="hrow-panel" aria-hidden="true">
         <div className="hrow-inner">
           <div className="hrow-video">
-            {p.video ? <video ref={vid} src={p.video} muted loop playsInline preload="metadata"></video> : <span className="pdl-mono pdl-t-index">{p.title} video</span>}
+            {p.video ? <video ref={vid} src={asset(p.video)} muted loop playsInline preload="metadata"></video> : <span className="pdl-mono pdl-t-index">{p.title} video</span>}
           </div>
           <div className="hrow-copy">
             {(p.preview || []).map((t, i) => (
@@ -79,9 +116,8 @@ function FeaturedWork() {
   return (
     <section className="pdl-band">
       <div className="pdl-wrap fw">
-        {/* ✏️ EDIT: heading + date range */}
+        {/* ✏️ EDIT: heading */}
         <SectionHeader eyebrow="[cool projects here]" title="Featured Work" tone="blue" />
-        <div className="fw-range pdl-mono pdl-t-index">From: 2025—2026</div>
         <ul className="pdl-rows">
           {projects.map((p, i) => <HoverProjectRow key={p.slug} p={p} last={i === projects.length - 1} />)}
         </ul>
@@ -101,7 +137,7 @@ function TestimonialCard({ quote, name, position, avatarSrc }) {
         <blockquote className="pdl-t-quote">{quote}</blockquote>
       </div>
       <figcaption>
-        {avatarSrc ? <img src={avatarSrc} alt={name} width={50} height={50} className="pdl-avatar" /> : <span className="pdl-avatar" aria-hidden="true" />}
+        {avatarSrc ? <img src={asset(avatarSrc)} alt={name} width={50} height={50} className="pdl-avatar" /> : <span className="pdl-avatar" aria-hidden="true" />}
         <span>
           <span className="pdl-card-name">{name}</span>
           <span className="pdl-card-pos">{position}</span>
@@ -191,11 +227,6 @@ function Approach() {
           </div>
         ))}
       </div>
-      <div className="appr-cta">
-        {/* ✏️ EDIT: call to action */}
-        <p className="pdl-t-body">Interested? Do you have a plan in mind?</p>
-        <Button href="/contact">Chat with Me</Button>
-      </div>
     </section>
   );
 }
@@ -239,12 +270,13 @@ export function Services() {
 
 export default function Home() {
   return (
-    <>
+    <div className="home">
+      <HeroGradient />
       <Hero />
       <FeaturedWork />
       <Testimonials />
       <Approach />
       <Services />
-    </>
+    </div>
   );
 }

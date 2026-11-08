@@ -1,15 +1,18 @@
 {
   "name": "portfolio-dl",
-  "homepage": "https://DLMrthelion.github.io/portfolio-dl",
+  "homepage": "https://dlmrthelion.github.io/portfolio-dl",
   "private": true,
   "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "gh-pages": "^6.3.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-router-dom": "6.28.0"
@@ -17,5 +20,5 @@
   "devDependencies": {
     "@vitejs/plugin-react": "4.3.4",
     "vite": "5.4.11"
-  },
+  }
 }

@@ -21,6 +21,7 @@ export const meta = {
   number: '02',
   title: 'Flow State',
   description: 'An immersive exhibit pilot led by POV Film with Immersive and TMU, bringing professionals from film, design, architecture and interior design together for one night.',
+  short: 'A one-night immersive exhibit pilot by POV Film, Immersive and TMU.', // shown instead of `description` on phones (Home rows)
   role: 'Co-Brand Designer &\nJr. Project Coordinator', // "\n" = line break on Home/Projects rows
   year: '2026',
   cover: '', // e.g. '/images/flow-state/cover.jpg' (16:7)

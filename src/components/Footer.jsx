@@ -13,7 +13,7 @@ export default function Footer() {
           <nav aria-label="Footer" className="pdl-footer-col">
             <p className="pdl-footer-label">{footerCta.navLabel}</p>
             <ul>
-              {navLinks.map((l) => <li key={l.href}><a href={l.href} className="pdl-t-lead">{l.label}</a></li>)}
+              {navLinks.filter((l) => !l.newTab).map((l) => <li key={l.href}><a href={l.href} className="pdl-t-lead">{l.label}</a></li>)}
             </ul>
           </nav>
           <div className="pdl-footer-col">

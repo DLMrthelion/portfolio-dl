@@ -3,6 +3,7 @@ import { Navigate, Route, Routes, useLocation, useNavigate, useParams } from 're
 import Navbar from './components/Navbar.jsx';
 import Footer from './components/Footer.jsx';
 import BackToTop from './components/BackToTop.jsx';
+import CustomCursor from './components/CustomCursor.jsx';
 import Home from './pages/Home.jsx';
 import Projects from './pages/Projects.jsx';
 import About from './pages/About.jsx';
@@ -106,6 +107,7 @@ export default function App() {
       </main>
       <Footer />
       <BackToTop />
+      <CustomCursor />
     </>
   );
 }

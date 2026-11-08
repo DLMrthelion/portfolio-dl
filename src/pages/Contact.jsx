@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Button, SectionHeader } from '../components/GlobalComponents.jsx';
 import { resumeUrl, services, socials } from '../data/site.js';
+import { asset } from '../lib/asset.js';
 
 /* ==========================================================================
    CONTACT PAGE  —  address: /contact   (/contact?s=Brand%20Identity pre-selects a service)
@@ -48,7 +49,7 @@ export default function Contact() {
         {/* ✏️ EDIT: heading + intro */}
         <SectionHeader eyebrow="[say hello]" title="Let’s build it together." />
         <p className="pdl-t-lead">Whether you’re on the hunt for talent🎯, seeking a collaborator for a project 🫂, or simply in the mood for a friendly chat 🗣️, I’d love to hear from you!</p>
-        <a className="contact-mail pdl-t-row" href={resumeUrl || '#'} target="_blank" rel="noopener">Resume</a>
+        <a className="contact-mail pdl-t-row" href={asset(resumeUrl) || '#'} target="_blank" rel="noopener">Resume</a>
         <div>
           <p className="pdl-footer-label">Socials</p>
           <ul className="contact-links">
