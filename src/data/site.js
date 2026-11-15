@@ -1,0 +1,68 @@
+/* ==========================================================================
+   SITE-WIDE CONTENT
+   Text that appears on more than one page, or in lists. Edit here and it
+   updates everywhere. Page-specific text lives in that page's file (src/pages).
+   Project details live at the top of each case-study file (src/pages/case-studies).
+   ========================================================================== */
+
+// ✏️ EDIT: your email (not shown on the site yet; handy for the contact form later).
+export const email = 'thelion1915@gmail.com';
+
+// ✏️ EDIT: your resume. Drop the PDF in public/files/ as resume.pdf (or change the name here).
+// Every "Resume" link opens it in a new tab: Menu › Resume, About, Contact.
+// Wrap it in asset() where you use it (src/lib/asset.js) so it works on GitHub Pages too.
+export const resumeUrl = '/files/Resume_DL.pdf';
+
+// ✏️ EDIT: pages in the menu + footer. href must match a route in src/App.jsx.
+//   newTab: true → opens in a new tab and is left out of the footer (used for the resume PDF).
+export const navLinks = [
+  { label: 'Home', href: '/' },
+  { label: 'Projects', href: '/work' },
+  { label: 'About', href: '/about' },
+  { label: 'Contact', href: '/contact' },
+  { label: 'Resume', href: resumeUrl, newTab: true },
+];
+
+// ✏️ EDIT: footer call-to-action. The second part is shown in the blue italic serif.
+export const footerCta = {
+  plain: 'Have a project in mind? ',
+  accent: 'Let’s build it together.',
+  navLabel: 'Pages',
+  socialsLabel: 'Follow',
+};
+
+// ✏️ EDIT: social links — shown in the footer and on the Contact page.
+export const socials = [
+  { label: 'Instagram', href: 'https://www.instagram.com/mrthelion/' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/davidleon19' },
+  { label: 'Letterboxd', href: 'https://letterboxd.com/Mrthelion1915/' },
+  { label: 'GitHub', href: 'https://github.com/DLMrthelion' },
+];
+
+// ✏️ EDIT: services — Home + About ("My Services") and the Contact form chips.
+export const services = [
+  { number: '01', title: 'UX/UI Design', description: 'Review or craft visually astonishing interfaces that enhance your user experience.' },
+  { number: '02', title: 'Product Design & Development', description: 'From concept to launch and after: User flows, prototypes, design systems, SEO, and optimization all built with care.' },
+  { number: '03', title: 'Brand Identity', description: 'Impactful brands always sell a story. Logo, type, colour and guidelines that make your brand memorable.' },
+  { number: '04', title: 'Interactive Design & Development', description: 'Motion design, micro-interactions and immersive experiences that turn browsing into storytelling.' },
+];
+
+// ✏️ EDIT: Home → "My Work Approach" columns.
+export const approach = [
+  { title: 'Design Philosophy', body: 'For me, great design isn’t just about aesthetics. It’s about creating seamless, intuitive experiences that resonate and are human-centered. I blend beauty with usability to craft digital and physical spaces that engage and inspire.' },
+  { title: 'What drives me?', body: 'I believe simplicity holds perfection, and sometimes less is better. My goal is to strip away the unnecessary, highlight what truly matters, and build designs that feel effortless yet powerful. Simplicity is not just an aesthetic, it’s an experience.' },
+  { title: 'What makes my work different?', body: 'What makes my work special is my obsession with making every design the best it can be, my cultural background, and the relationships I build with my clients.' },
+];
+
+// ✏️ EDIT: Home → Testimonials carousel.
+//   quote:    one string, or a list of strings for several paragraphs
+//   position: "\n" starts a new line; the text after it becomes a link to `url`
+//   avatar:   optional photo, e.g. '/images/testimonials/amir.jpg' (grey circle if empty)
+export const testimonials = [
+  { quote: ['David seamlessly collaborates with others to create designs that serve the end user effectively. This is supported by his underlying passion to forge connections, and his dedication to honing his strategic thinking and design craft, which are both high quality.', 'So, if you’re looking for a well-rounded designer who delivers well-thought-out and polished designs while bringing that irreplaceable human touch, David is your guy.'], name: 'Denise Amelia', position: 'Content Designer at\nPointClickCare', url: 'https://www.pointclickcare.com', avatar: 'images/testimonials/DA.webp' },
+  { quote: ['David’s passion for design and storytelling shines through in everything he does. His creativity, dedication, and ability to quickly adapt and learn new tools are truly impressive. Beyond his skills, David’s positive attitude and genuine approach make him a joy to work with.'], name: 'Amir Afshari', position: 'Software Engineer at\nGeotab', url: 'https://www.geotab.com', avatar: 'images/testimonials/AA.webp' },
+  { quote: ['I met David at Hackville, a Sheridan hackathon. He has a strong eye for UX/UI and is skilled with tools like Figma and Adobe Creative Suite. Beyond his technical ability, David brings a thoughtful, user-focused approach and works very well in a team setting.'], name: 'Luis Santos', position: 'Email Marketing Specialist at\nOmnicom', url: 'https://www.omnicomgroup.com', avatar: 'images/testimonials/LS.webp' },
+  { quote: ['David consistently displayed an innate talent for engaging with customers, understanding their needs, and providing tailored advice that ensured an exceptional shopping experience.', 'His ability to listen attentively and communicate effectively made him a favourite among our clientele.'], name: 'Julie Corbett', position: 'Operations Manager at\nOakville Divers', url: 'https://www.oakvilledivers.com', avatar: 'images/testimonials/JC.webp' },
+  { quote: ['David did an outstanding job designing the business cards for my company. His work is a perfect blend of quality and creativity, and I wholeheartedly recommend his professional services.'], name: 'Nayibe Gutierrez', position: 'Independent Distributor for\nNu Skin', url: 'https://www.nuskin.com', avatar: 'images/testimonials/NG.webp' },
+  
+];
