@@ -126,17 +126,23 @@ export function Quote({ children }) {
    wrapped in your own components — only their position on the page counts. */
 const StepsContext = createContext(null);
 
+/** A sorted copy of the registered steps, in the order their sections appear on the page. */
+const inPageOrder = (list) =>
+  [...list].sort((a, b) => (a.el.compareDocumentPosition(b.el) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1));
+
 /** Wraps the numbered steps and adds the progress bar (side rail on desktop, top bar on tablet).
  *  The bar lists the steps inside it, in page order — nothing to keep in sync. */
 export function CaseSteps({ children }) {
   const [steps, setSteps] = useState([]); // [{ key, el, barLabel }] in page order
   const register = useCallback((key, el, barLabel) => {
-    setSteps((list) => {
-      const next = list.filter((s) => s.key !== key).concat({ key, el, barLabel });
-      return next.sort((a, b) => (a.el.compareDocumentPosition(b.el) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1));
-    });
+    setSteps((list) => inPageOrder(list.filter((s) => s.key !== key).concat({ key, el, barLabel })));
     return () => setSteps((list) => list.filter((s) => s.key !== key));
   }, []);
+  // Steps can also move without re-registering (e.g. a keyed list reordered), so re-check the order after every render.
+  useLayoutEffect(() => {
+    const sorted = inPageOrder(steps);
+    if (sorted.some((s, i) => s !== steps[i])) setSteps(sorted);
+  });
   const ctx = useMemo(() => ({ register, steps }), [register, steps]);
   return (
     <StepsContext.Provider value={ctx}>
