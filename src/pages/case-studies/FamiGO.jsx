@@ -97,9 +97,9 @@ export default function FamiGO() {
       </CsBlock>
 
       {/* ---------- Process steps ---------- */}
-      <CaseSteps labels={['RESEARCH\nAND DISCOVERY', 'PLANNING', 'PROTOTYPING', 'ITERATING', 'FINAL DESIGN']}>
+      <CaseSteps>
         {/* Step 1 */}
-        <CsStep num={1} label="RESEARCH & DISCOVERY" title="About the Problem"
+        <CsStep label="RESEARCH & DISCOVERY" barLabel={'RESEARCH\nAND DISCOVERY'} title="About the Problem"
           head={<>
             <div className="cs-body">
               <p className="pdl-t-body" style={{ maxWidth: 'none' }}>We needed context to understand this challenge imposed by RTI. Especially, how familial relationships were being affected nowadays with tech.</p>
@@ -123,7 +123,7 @@ export default function FamiGO() {
         </CsStep>
 
         {/* Step 2 */}
-        <CsStep num={2} label="PLANNING" title="Laying out the plan."
+        <CsStep label="PLANNING" title="Laying out the plan."
           head={<p className="pdl-t-body">While we waited for the survey results, we went ahead and secured interviews with 2 families, where I was in charge of interviewing and transcribing the interviews.</p>}>
           <Figure n={2} />
           <Pair>
@@ -139,7 +139,7 @@ export default function FamiGO() {
         </CsStep>
 
         {/* Step 3 */}
-        <CsStep num={3} label="PROTOTYPING" title="Designing a Solution"
+        <CsStep label="PROTOTYPING" title="Designing a Solution"
           head={<p className="pdl-t-body">With this previous information, and multiple ideas in mind, we decided to do a Crazy 8’s and generate our most original, interesting, silly, and/or fitting ideas for this app.</p>}>
           <Figure n={3} />
           <Pair>
@@ -156,7 +156,7 @@ export default function FamiGO() {
         </CsStep>
 
         {/* Step 4 */}
-        <CsStep num={4} label="ITERATING" title="FamiGO V1?"
+        <CsStep label="ITERATING" title="FamiGO V1?"
           head={<p className="pdl-t-body">Taking into account the feedback from our RTI coach Mussavir and our classmates, we continued to create the first version of the app, where we each created a low-fi prototype of the screens we previously were set on (Home, Activities, Calendar, Profile) to see what we liked or didn’t and where we overlapped. Based on our app interactions, we refined a prototype, where users could browse, create and change the settings for other members in their family group.</p>}>
           <Figure n={5} />
           <Pair>
@@ -165,7 +165,7 @@ export default function FamiGO() {
         </CsStep>
 
         {/* Step 5 */}
-        <CsStep num={5} label="FINAL DESIGN" title="FamiGO"
+        <CsStep label="FINAL DESIGN" title="FamiGO"
           head={<>
             <p className="pdl-t-body">From finding ‘shared time’ to making a ‘schedule for activities’ to really focus on what’s essential, providing activities to users, and a way to remember special moments. This project taught me about the value of constant iteration and feedback.</p>
             <p className="pdl-t-body">You can check our last prototype and presentation below.</p>

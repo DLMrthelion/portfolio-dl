@@ -84,9 +84,9 @@ export default function FlowState() {
       </CsBlock>
 
       {/* ---------- Process steps ---------- */}
-      <CaseSteps labels={['BRAINSTORMING\n& PLANNING', 'GRAPHICS TEAM', 'PROJECT COORDINATION', 'THE EXHIBIT', 'LEARNING OUTCOMES']}>
+      <CaseSteps>
         {/* Step 1 */}
-        <CsStep num={1} label="BRAINSTORMING & PLANNING" title="How it all started"
+        <CsStep label="BRAINSTORMING & PLANNING" barLabel={'BRAINSTORMING\n& PLANNING'} title="How it all started"
           head={<p className="pdl-t-body">The first week was spent learning about the project’s scope and the responsibilities of each team member. This helped get everyone on the same page and helped the team assess different work and tasks.</p>}>
           <Figure n={1} />
           <Pair>
@@ -98,7 +98,7 @@ export default function FlowState() {
         </CsStep>
 
         {/* Step 2 */}
-        <CsStep num={2} label="GRAPHICS TEAM" title="Graphics & Branding team"
+        <CsStep label="GRAPHICS TEAM" title="Graphics & Branding team"
           head={<p className="pdl-t-body">With Natalie, and under the supervision of the Immersive international team, we thought of ideas for our first task, the Eventbrite invite.</p>}>
           <Figure n={2} />
           <Pair>
@@ -121,7 +121,7 @@ export default function FlowState() {
         </CsStep>
 
         {/* Step 3 */}
-        <CsStep num={3} label="PROJECT COORDINATION" title="Coordinating Event details"
+        <CsStep label="PROJECT COORDINATION" title="Coordinating Event details"
           head={<p className="pdl-t-body">I joined the project coordination team alone from the mentees part. And under direct supervision from the immersive team, I helped their project coordinator in different tasks. From budgeting to scheduling and quoting vendors.</p>}>
           <Figure n={3} />
           <Pair>
@@ -130,7 +130,7 @@ export default function FlowState() {
         </CsStep>
 
         {/* Step 4 */}
-        <CsStep num={4} label="THE EXHIBIT" title="The Exhibit"
+        <CsStep label="THE EXHIBIT" title="The Exhibit"
           head={<p className="pdl-t-body">The exhibit took place after less than 10 weeks of planning, prepping and preparation. Before the big day, I went in three days and two days prior to finalize details and offer my help on anything that was left to complete.</p>}>
           <Figure n={4} />
           <Pair>
@@ -142,7 +142,7 @@ export default function FlowState() {
         </CsStep>
 
         {/* Step 5 */}
-        <CsStep num={5} label="LEARNING OUTCOMES" title="Learning Outcomes"
+        <CsStep label="LEARNING OUTCOMES" title="Learning Outcomes"
           head={<p className="pdl-t-body">The event was a success, with multiple sponsors involved. I believe it personally helped me understand the industry and improve my skills.</p>}>
           <Figure n={5} />
           <Pair>

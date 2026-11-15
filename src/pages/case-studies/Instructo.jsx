@@ -79,9 +79,9 @@ export default function Instructo() {
       </CsBlock>
 
       {/* ---------- Process steps ---------- */}
-      <CaseSteps labels={['RESEARCH', 'PLANNING', 'PROTOTYPING', 'TESTING', 'FINAL DESIGN']}>
+      <CaseSteps>
         {/* Step 1 */}
-        <CsStep num={1} accent={BLUE} label="RESEARCH" title="Where it all Started?"
+        <CsStep accent={BLUE} label="RESEARCH" title="Where it all Started?"
           head={<>
             <p className="pdl-t-body">It started while I was choosing a thesis topic. A business owner close to me had run his company for over ten years, and hearing how he worked through obstacles and learned from setbacks made me wonder: what if those lessons could be shared as advice for people just starting out?</p>
             <Metrics items={STARTUP_STATS} />
@@ -99,7 +99,7 @@ export default function Instructo() {
         </CsStep>
 
         {/* Step 2 */}
-        <CsStep num={2} accent={BLUE} label="PLANNING" title="Setting up Instructo"
+        <CsStep accent={BLUE} label="PLANNING" title="Setting up Instructo"
           head={<p className="pdl-t-body">With the research question defined, I began shaping how the solution would stand out from competitors.</p>}>
           <Figure n={2} />
           <Pair>
@@ -119,7 +119,7 @@ export default function Instructo() {
         </CsStep>
 
         {/* Step 3 */}
-        <CsStep num={3} accent={BLUE} label="PROTOTYPING" title="Building Instructo"
+        <CsStep accent={BLUE} label="PROTOTYPING" title="Building Instructo"
           head={<p className="pdl-t-body">With the flows prioritized, I turned the blueprint into reality by defining key aspects and prototyping the initial mock-ups. Keeping in mind the three key features discussed during planning.</p>}>
           <Figure n={3} />
           <Pair>
@@ -129,7 +129,7 @@ export default function Instructo() {
         </CsStep>
 
         {/* Step 4 */}
-        <CsStep num={4} accent={BLUE} label="TESTING" title="Testing First Iterations..."
+        <CsStep accent={BLUE} label="TESTING" title="Testing First Iterations..."
           head={
             <div style={{ display: 'flex', gap: 12 }}>
               <p className="pdl-t-body">Once the initial designs were done, I turned back to some of my peer designers for evaluation before taking them back to my interviewees. This proved effective as it improved the overall user-flow, and revealed mistakes. The designers’ feedback was then integrated.</p>
@@ -143,7 +143,7 @@ export default function Instructo() {
         </CsStep>
 
         {/* Step 5 */}
-        <CsStep num={5} accent={BLUE} label="FINAL DESIGN" title="Instructo V1"
+        <CsStep accent={BLUE} label="FINAL DESIGN" title="Instructo V1"
           head={<>
             <p className="pdl-t-body">In the end, I used Adobe After Effects, Illustrator and Figma to create a 1:30-minute promotional video that demonstrates the app’s features and encourages business owners and start-ups to share their knowledge. You can also try the latest prototype with the button below.</p>
             <div style={{ display: 'flex', gap: 15 }}>

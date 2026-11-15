@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { ImageSlot } from './GlobalComponents.jsx';
 import { nextProject } from '../data/projects.js';
 import { asset } from '../lib/asset.js';
@@ -12,8 +12,8 @@ import { asset } from '../lib/asset.js';
      <CaseStudyLayout meta={meta}>          title, cover, Role/Timeline/Team/Tools, "next project"
        <CsBlock n="01" label="THE CHALLENGE" title="…">…</CsBlock>
        <SolutionScreens wide="…" left="…" right="…" />
-       <CaseSteps labels={['RESEARCH', …]}>   sticky progress bar + numbered steps
-         <CsStep num={1} label="RESEARCH" title="…" head={<p>intro</p>}>
+       <CaseSteps>                          sticky progress bar + steps, numbered in page order
+         <CsStep label="RESEARCH" title="…" head={<p>intro</p>}>
            <Figure n={1} image="…" caption="…" />
            <Pair> <p/> <p/> <StepImage size="half"/> <StepImage size="half"/> </Pair>
          </CsStep>
@@ -121,26 +121,42 @@ export function Quote({ children }) {
 
 /* ---------------------------------- Steps ---------------------------------- */
 
+/* Each <CsStep> registers itself here; CaseSteps keeps them in page order, which
+   gives every step its number and the progress bar its entries. Steps can be
+   wrapped in your own components — only their position on the page counts. */
+const StepsContext = createContext(null);
+
 /** Wraps the numbered steps and adds the progress bar (side rail on desktop, top bar on tablet).
- *  labels: one per step, in order. "\n" breaks a label onto two lines. */
-export function CaseSteps({ labels, children }) {
+ *  The bar lists the steps inside it, in page order — nothing to keep in sync. */
+export function CaseSteps({ children }) {
+  const [steps, setSteps] = useState([]); // [{ key, el, barLabel }] in page order
+  const register = useCallback((key, el, barLabel) => {
+    setSteps((list) => {
+      const next = list.filter((s) => s.key !== key).concat({ key, el, barLabel });
+      return next.sort((a, b) => (a.el.compareDocumentPosition(b.el) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1));
+    });
+    return () => setSteps((list) => list.filter((s) => s.key !== key));
+  }, []);
+  const ctx = useMemo(() => ({ register, steps }), [register, steps]);
   return (
-    <div className="cs-body cs-steps-wrap">
-      <CsProgress labels={labels} />
-      {children}
-    </div>
+    <StepsContext.Provider value={ctx}>
+      <div className="cs-body cs-steps-wrap">
+        <CsProgress steps={steps} />
+        {children}
+      </div>
+    </StepsContext.Provider>
   );
 }
 
-function CsProgress({ labels }) {
-  const n = labels ? labels.length : 5;
+function CsProgress({ steps }) {
+  const n = steps.length;
   const [pos, setPos] = useState(0);
   const [active, setActive] = useState(-1);
   useEffect(() => {
     const onScroll = () => {
       const mid = window.innerHeight * 0.5;
-      const els = Array.from({ length: n }, (_, i) => document.getElementById('cs-step-' + (i + 1)));
-      if (els.some((el) => !el)) return;
+      const els = steps.map((s) => s.el);
+      if (!n) return;
       let a = -1;
       els.forEach((el, i) => { if (el.getBoundingClientRect().top < mid) a = i; });
       let f = 0;
@@ -164,10 +180,10 @@ function CsProgress({ labels }) {
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onScroll);
     };
-  }, [n]);
+  }, [steps, n]);
 
   const go = (i) => {
-    const el = document.getElementById('cs-step-' + (i + 1));
+    const el = steps[i] && steps[i].el;
     if (!el) return;
     const bar = document.querySelector('.cs-prog');
     const side = window.matchMedia('(min-width:1101px)').matches;
@@ -183,7 +199,7 @@ function CsProgress({ labels }) {
           <li key={i}>
             <button type="button" className={'cs-prog-dot' + (i <= active ? ' on' : '')} aria-current={i === active ? 'step' : undefined} onClick={() => go(i)}>
               <span className="cs-prog-num">{i + 1}</span>
-              <span className="cs-prog-label">{labels ? labels[i] : <>Title #{i + 1}</>}</span>
+              <span className="cs-prog-label">{steps[i].barLabel || <>Title #{i + 1}</>}</span>
             </button>
           </li>
         ))}
@@ -193,12 +209,21 @@ function CsProgress({ labels }) {
 }
 
 /**
- * One numbered step.  num = its position (1, 2, 3…) — must match the progress bar order.
+ * One numbered step — must sit inside <CaseSteps>. Its number is its position on the page.
+ * label = eyebrow text (and progress-bar text). barLabel = different text for the bar only ("\n" = line break).
  * head = what goes under the title (intro text, buttons…). children = everything below.
  */
-export function CsStep({ num, label, title = 'Section title', accent, head, children }) {
+export function CsStep({ label, barLabel, title = 'Section title', accent, head, children }) {
+  const ctx = useContext(StepsContext);
+  if (!ctx) throw new Error('<CsStep> must be placed inside <CaseSteps>.');
+  const { register, steps } = ctx;
+  const ref = useRef(null);
+  const key = useId();
+  const bar = barLabel || label;
+  useLayoutEffect(() => register(key, ref.current, bar), [register, key, bar]);
+  const num = steps.findIndex((s) => s.key === key) + 1;
   return (
-    <section className="cs-step" id={'cs-step-' + num}>
+    <section className="cs-step" id={num ? 'cs-step-' + num : undefined} ref={ref}>
       <header className="cs-step-head">
         <p className="pdl-mono pdl-t-eyebrow" style={accent ? { color: accent } : undefined}>{label ? '[' + label + ']' : '[Step ' + num + ']'}</p>
         <h2 className="pdl-t-row">{title}</h2>

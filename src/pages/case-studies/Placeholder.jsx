@@ -39,7 +39,7 @@ export const meta = {
 /** A generic step: intro, wide image, two paragraphs, two half images. */
 function TemplateStep({ num }) {
   return (
-    <CsStep num={num} head={<p className="pdl-t-body">{T}</p>}>
+    <CsStep head={<p className="pdl-t-body">{T}</p>}>
       <Figure n={num} />
       <Pair>
         <p className="pdl-t-body">{T}</p>
@@ -82,7 +82,7 @@ export default function Placeholder() {
         <p className="pdl-t-lead"></p>
       </CsBlock>
 
-      {/* No labels → the progress bar shows "Title #1…5" and steps show "[Step 1]…" */}
+      {/* No labels → the progress bar shows "Title #1…5" and steps show "[Step 1]…". num only feeds the image placeholder captions. */}
       <CaseSteps>
         <TemplateStep num={1} />
         <TemplateStep num={2} />
