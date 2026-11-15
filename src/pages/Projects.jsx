@@ -24,7 +24,7 @@ export default function Projects() {
               <span className="pdl-mono pdl-t-index" style={{ paddingTop: 6 }}>{p.number}</span>
               <span className="pcard-main">
                 <span className="pcard-title pdl-t-row">{p.title}</span>
-                <span className="pdl-t-body" style={{ maxWidth: 440 }}>{p.description}</span>
+                <span className="pcard-desc pdl-t-body">{p.description}</span>
               </span>
               <span className="pcard-side">
                 <span className="pcard-role pdl-mono pdl-t-meta">{p.role}</span>

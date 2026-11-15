@@ -15,6 +15,7 @@
 
    Newer layers, at the end of the file (they override the sections above):
      §17 Landing page updates      §18  Hero v2      §19  Testimonial cards v2
+     §20 Phone refinements (≤640px)
 
    ✏️  QUICK EDITS
      • Change the accent colour ......... §2  --blue
@@ -3090,9 +3091,9 @@ html.has-gl .hero::before { display: none; }
 }
 .tcar-track .tcard .pdl-card-mark {
   display: block;
-  height: 40px;
+  height: 20px; /* the glyph overflows its box; 20px leaves ~20px of air before the quote */
   line-height: .8;
-  margin: -4px 0 0 -.145em; /* optical alignment: lines up with the text (-6px + 2px extra top space) */
+  margin: 9px 0 0 -.145em; /* top: the 96px glyph renders ~13px above its box, so +9px puts it on the card's top padding line; left: optical alignment with the text */
   color: var(--blue);
   transition: color .45s;
 }
@@ -3128,4 +3129,48 @@ html.has-gl .hero::before { display: none; }
 }
 @media (prefers-reduced-motion:reduce) {
   .tcar-track .tcard:is(:hover, .is-lit) { transform: none; }
+}
+
+/* ==========================================================================
+     PHONE REFINEMENTS (≤640px)
+   ========================================================================== */
+
+/* --- Projects card description: capped on wider screens, full width on phones --- */
+.pcard-desc {
+  max-width: flex;
+}
+@media (max-width: 640px) {
+  /* Hero: room under the navbar + a looser vertical rhythm */
+  .hero.hero-v2 {
+    padding-top: 15px;      /* navbar → headline */
+    padding-bottom: 112px;  /* labels → "Scroll down to see more" (was 88px) */
+  }
+  .hero-v2 .hero-main {
+    row-gap: 56px;          /* headline → paragraph (was 44px) */
+    padding-bottom: 52px;   /* buttons → divider (was ~36px) */
+  }
+  .hero-v2 .hero-side {
+    gap: 40px;              /* paragraph → buttons (was 34px) */
+  }
+  .hero-v2 .hero-foot {
+    padding-top: 22px;      /* divider → labels (was 18px) */
+  }
+  .hero-v2 .hero-meta {
+    row-gap: 10px;          /* between labels (was 6px) */
+  }
+
+  /* Projects: number | title + full-width description, role + year in a row underneath */
+  .pcard-row {
+    grid-template-columns: 40px minmax(0,1fr);
+  }
+  .pcard-desc {
+    max-width: none;
+  }
+  .pcard-side {
+    grid-column: 2;
+    flex-direction: row;
+    align-items: flex-end;
+    margin-top: 16px;
+    text-align: left;
+  }
 }

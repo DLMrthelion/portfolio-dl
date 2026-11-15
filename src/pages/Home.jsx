@@ -168,33 +168,31 @@ function Position({ t }) {
 }
 
 /**
- * Phones & tablets (no hover): the cards on screen take turns turning blue (.is-lit),
- * starting 1.2s after load, one every 3s. With a single card on screen it pulses on/off.
+ * Phones & tablets (no hover): the card most on screen turns blue (.is-lit) as soon as it
+ * is at least 60% visible, and goes back to grey once it leaves (swiped away or scrolled
+ * past). Only one card is lit at a time. root: null = the viewport, clipped by the track,
+ * so both swiping sideways and scrolling the page count.
  */
+const LIGHT_MIN = 0.6;
 function useAutoLight(track) {
   useEffect(() => {
     const el = track.current;
     if (!el || !window.matchMedia('(hover:none)').matches) return undefined;
     const cards = [...el.children];
-    const inView = new Set();
-    const io = new IntersectionObserver((es) => es.forEach((e) => (e.intersectionRatio >= 0.6 ? inView.add(e.target) : inView.delete(e.target))), { root: el, threshold: [0, 0.6, 1] });
+    const ratio = new Map();
+    let lit = null;
+    const io = new IntersectionObserver((es) => {
+      es.forEach((e) => ratio.set(e.target, e.isIntersecting ? e.intersectionRatio : 0));
+      let best = null;
+      let bestR = LIGHT_MIN - 0.001;
+      cards.forEach((c) => { const r = ratio.get(c) || 0; if (r > bestR) { best = c; bestR = r; } });
+      if (best === lit) return;
+      if (lit) lit.classList.remove('is-lit');
+      if (best) best.classList.add('is-lit');
+      lit = best;
+    }, { threshold: [0, 0.2, 0.4, 0.5, LIGHT_MIN, 0.7, 0.8, 0.9, 1] });
     cards.forEach((c) => io.observe(c));
-    let i = -1;
-    let timer = 0;
-    const tick = () => {
-      const list = cards.filter((c) => inView.has(c));
-      if (list.length === 1) {
-        cards.forEach((c) => { if (c !== list[0]) c.classList.remove('is-lit'); });
-        list[0].classList.toggle('is-lit');
-        return;
-      }
-      cards.forEach((c) => c.classList.remove('is-lit'));
-      if (!list.length) return;
-      i = (i + 1) % list.length;
-      list[i].classList.add('is-lit');
-    };
-    const start = setTimeout(() => { tick(); timer = setInterval(tick, 3000); }, 1200);
-    return () => { clearTimeout(start); clearInterval(timer); io.disconnect(); cards.forEach((c) => c.classList.remove('is-lit')); };
+    return () => { io.disconnect(); cards.forEach((c) => c.classList.remove('is-lit')); };
   }, [track]);
 }
 
