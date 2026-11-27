@@ -11,31 +11,30 @@ export const meta = {
   slug: 'instructo', // URL: /work/instructo
   number: '01',
   title: 'Instructo',
-  description: 'A learning app built for entrepreneurs, designed to help them grow, improve and take their business to the next level.',
+  description: 'A learning app built for entrepreneurs to share their business knowledge. And help them grow, improve and take their business to the next level.',
   short: 'A learning app that helps entrepreneurs grow their business.', // shown instead of `description` on phones (Home rows)
   role: 'Lead Designer &\nLead UX Researcher', // "\n" = line break on Home/Projects rows
-  year: '2025',
+  year: '2025', // shown instead of `description` on phones (Home rows)
   cover: '', // e.g. '/images/instructo/cover.jpg' (16:7) — Projects card + top of this page
   coverAlt: '',
   video: '', // e.g. '/videos/instructo.mp4' — plays when hovering the row on Home
   preview: ['Start-ups are failing faster than they can turn a profit. How can we turn the experiences of those who succeeded into lessons for the ventures still finding their way? Instructo turns that hard-won experience into something any entrepreneur can learn from.'],
   details: [
     { label: 'Role', value: 'Lead Designer & Lead UX Researcher' },
-    { label: 'Timeline', value: '2025' },
+    { label: 'Timeline', value: '2025 (6 Months)' },
     { label: 'Team', value: 'Solo Project\nMatthew Sharpe (Professor)\nRahul Kapoor (Professor)' },
     { label: 'Tools', value: 'Figma, FigJam, Jitter, Premiere, After Effects' },
   ],
 };
 
 // ✏️ EDIT: button links ('#' = not set yet)
-const LINKS = { prototype: '#', video: '#' };
+const LINKS = { prototype: '#', video: 'https://youtu.be/H3hG2ACb8OQ' };
 
 // ✏️ EDIT: numbers (used twice each below)
 const STARTUP_STATS = [
-  { value: '90%', head: 'of start-ups fail', text: 'Depending on the landscape and market, around 90% of start-ups fail at surviving.', source: '(Founders Forum group)' },
-  { value: '2+', head: 'years to profitability', text: 'Small business owners said that it took around 2 years after their first year to become profitable.', source: '(Fresh Books)' },
-  { value: '$78bn', head: 'in start-up valuation', text: 'Is the start-up valuation in the Toronto-Waterloo area alone from 2023-2025.', source: '(Startup Genome)' },
-  { value: '70%', head: 'Of 2-year-old start-ups fail', text: 'In most industries, 70% of start-ups fail after the 2-year mark.', source: '(Founders Forum group)' },
+  { value: '90%', head: 'of start-ups fail', text: 'Depending on the landscape and market, around 90% of start-ups fail at surviving.', source: '(Founders Forum group)', sourceUrl: 'https://ff.co/startup-statistics-guide/#:~:text=90%25%20of%20startups%20fail%20overall' },
+  { value: '50%', head: 'of start-ups won\'t last 5 years', text: 'According to U.S Bureau of Labour Statistics, in 2024, around 50% of small businesses will not last 5 years.', source: '(U.S. Chamber of Commerce)', sourceUrl: 'https://www.uschamber.com/co/start/strategy/why-small-businesses-fail#:~:text=The%20real%20small,first%20five%20years' },
+  { value: '$78bn', head: 'in start-up valuation', text: 'Is the start-up valuation in the Toronto-Waterloo area alone from 2023-2025.', source: '(Startup Genome)', sourceUrl: 'https://startupgenome.com/ecosystems/toronto-waterloo' },
 ];
 const SURVEY_RESULTS = [
   { value: '85%', head: 'Of surveyed users', text: 'agreed on using the app to share their success story, and/or facilitate a course.' },
@@ -50,27 +49,33 @@ export default function Instructo() {
     <CaseStudyLayout meta={meta}>
       {/* ---------- 01 · The Challenge ---------- */}
       <CsBlock n="01" label="THE CHALLENGE" title="Start-ups are dying... What can we do to help them survive?">
-        <p className="pdl-t-lead">Entrepreneurs, small companies and freelancers in North America are growing in number, but their chances of survival are not. How can we empower them with the right tools and information to make their ideas last?</p>
+        <p className="pdl-t-lead">Entrepreneurs, small companies, and freelancers in North America are growing in number, but their chances of survival are not. How can we empower them with the right tools and information to make their ideas last?</p>
         <Metrics items={STARTUP_STATS} />
       </CsBlock>
 
-      {/* ---------- 02 · Solution ---------- */}
-      <CsBlock cls="cs-solution" n="02" label="Solution" title="Introducing Instructo">
-        <p className="pdl-t-lead">That question led to Instructo. I had seen how accelerators and other resources helped entrepreneurs, and I asked how those benefits could be applied to a digital tool.</p>
-        <div><Button href={LINKS.prototype}>Final Prototype</Button></div>
+      {/* ---------- 02 · The Question ---------- */}
+      <CsBlock cls="cs-question" n="02" label="THE QUESTION" title="How might we...">
+        <Quote>Empower individuals to start, expand, and diversify their businesses by giving them easier access to the right support and information?</Quote>
+      </CsBlock>
+
+      {/* ---------- 03 · Solution ---------- */}
+      <CsBlock cls="cs-solution" n="03" label="Solution" title="Introducing Instructo">
+        <p className="pdl-t-lead">Seeing how accelerators and other business resources helped entrepreneurs, I asked myself, how could these benefits be applied to a digital learning tool for entrepreneurs? <br /><br /> Here's how it turned out, from onboarding to promotion. This MVP reflects an initial version of instructo</p>
+        <div style={{ display: 'flex', gap: 15 }}><Button href={LINKS.prototype}>Final Prototype</Button>
+        <Button href={LINKS.video} variant="outline" target="_blank" rel="noopener noreferrer">Final Video</Button></div>
       </CsBlock>
       {/* ✏️ IMAGES: wide="/images/instructo/solution-wide.jpg" left="…" right="…" */}
       <SolutionScreens />
 
-      {/* ---------- 03 · Outcomes ---------- */}
-      <CsBlock n="03" label="Outcomes" title="Instructo’s V1 Impact">
-        <p className="pdl-t-lead">Instructo is a learning app where entrepreneurs, freelancers and small business owners share their experiences and help each other gather the knowledge to improve and succeed. Early feedback from surveyed users suggests the idea works.</p>
+      {/* ---------- 04 · Outcomes ---------- */}
+      <CsBlock n="04" label="Outcomes" title="Instructo’s V1 Impact">
+        <p className="pdl-t-lead">Instructo is a learning app where entrepreneurs, freelancers and small business owners share their business knowledge and experiences, to help each other gather knowledge to improve and succeed. This is the feedback from surveyed users suggests the idea works.</p>
         <Metrics items={SURVEY_RESULTS} />
       </CsBlock>
 
-      {/* ---------- 04 · Reflection ---------- */}
-      <CsBlock cls="cs-reflection" n="04" label="Reflection" title="What would I do differently?">
-        <p className="pdl-t-lead">Looking forward, there are a few design details I would improve. I would also move the app into a beta phase and invite successful business owners to share their stories, so the app launches with real content.</p>
+      {/* ---------- 05 · Reflection ---------- */}
+      <CsBlock cls="cs-reflection" n="05" label="Reflection" title="What would I do differently?">
+        <p className="pdl-t-lead">Looking forward, there are a few design details I would improve. I would also move the app into a beta phase and invite real business owners to share their stories, so the app gets populated with actual content.</p>
       </CsBlock>
 
       {/* ---------- In Depth (blue band) ---------- */}
@@ -83,7 +88,7 @@ export default function Instructo() {
         {/* Step 1 */}
         <CsStep accent={BLUE} label="RESEARCH" title="Where it all Started?"
           head={<>
-            <p className="pdl-t-body">It started while I was choosing a thesis topic. A business owner close to me had run his company for over ten years, and hearing how he worked through obstacles and learned from setbacks made me wonder: what if those lessons could be shared as advice for people just starting out?</p>
+            <p className="pdl-t-body">While I was choosing a thesis topic, A business owner close to me had run his company for over ten years, and during a talk, I ask him about the most difficult thing he ever did in his life. His answer? Starting his own company. Hearing about his story of how he worked through different obstacles to keep his company alive made me feel inspired. But it also made me wonder: what if the lessons of experienced business makers could be shared as advice for others?</p>
             <Metrics items={STARTUP_STATS} />
             <p className="pdl-t-body" style={{ maxWidth: 'none', marginTop: 32 }}>These numbers made me curious about what separates start-ups that last from those that don’t, so I went to the source and asked business owners directly.</p>
           </>}>
